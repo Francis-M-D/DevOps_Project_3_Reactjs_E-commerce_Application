@@ -1,11 +1,13 @@
 #!/bin/bash
 
-echo "Stopping existing container..."
+IMAGE="ghostatdocker/react-app-prod:latest"
+
+echo "Pulling latest prod image..."
+docker pull $IMAGE
+
+echo "Stopping old container..."
 docker stop react-app || true
 docker rm react-app || true
 
-echo "Pulling latest image..."
-docker pull ghostatdocker/react-app-dev:latest
-
-echo "Running container..."
-docker run -d -p 80:80 --name react-app ghostatdocker/react-app-dev:latest
+echo "Running new container..."
+docker run -d -p 80:80 --name react-app $IMAGE

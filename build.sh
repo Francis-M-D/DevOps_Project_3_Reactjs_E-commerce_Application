@@ -1,9 +1,18 @@
 #!/bin/bash
 
-IMAGE_NAME=ghostatdocker/react-app-dev
+BRANCH=$1
 
-echo "Building Docker Image..."
-docker build -t $IMAGE_NAME:latest .
+if [ "$BRANCH" == "dev" ]; then
+  IMAGE="ghostatdocker/react-app-dev:latest"
+elif [ "$BRANCH" == "master" ]; then
+  IMAGE="ghostatdocker/react-app-prod:latest"
+else
+  echo "Invalid branch"
+  exit 1
+fi
 
-echo "Pushing to DockerHub..."
-docker push $IMAGE_NAME:latest
+echo "Building image: $IMAGE"
+docker build -t $IMAGE .
+
+echo "Pushing image..."
+docker push $IMAGE
