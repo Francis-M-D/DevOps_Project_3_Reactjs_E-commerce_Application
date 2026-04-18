@@ -26,6 +26,8 @@ pipeline {
                 branch 'dev'
             }
             steps {
+		withCredentials([usernamePassword(credentialsId: 'Docker_Credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin"
                 sh '''
                 docker tag $IMAGE $DEV_REPO:latest
                 docker push $DEV_REPO:latest
@@ -38,7 +40,9 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh '''
+                withCredentials([usernamePassword(credentialsId: 'Docker_Credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin"                
+		sh '''
                 docker tag $IMAGE $PROD_REPO:latest
                 docker push $PROD_REPO:latest
                 '''
