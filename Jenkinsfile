@@ -11,7 +11,7 @@ pipeline {
 
         stage('Clone Repo') {
             steps {
-                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/Francis-M-D/DevOps_Project_3_Reactjs_E-commerce_Application.git'
+                git branch: "dev", url: 'https://github.com/Francis-M-D/DevOps_Project_3_Reactjs_E-commerce_Application.git'
             }
         }
 
