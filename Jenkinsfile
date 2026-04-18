@@ -32,7 +32,8 @@ pipeline {
                 docker tag $IMAGE $DEV_REPO:latest
                 docker push $DEV_REPO:latest
                 '''
-            }
+            	}
+	}
         }
 
         stage('Push to Prod') {
@@ -46,8 +47,9 @@ pipeline {
                 docker tag $IMAGE $PROD_REPO:latest
                 docker push $PROD_REPO:latest
                 '''
-            }
-        }
+            	}
+        	}
+	}
 
         stage('Deploy') {
             steps {
