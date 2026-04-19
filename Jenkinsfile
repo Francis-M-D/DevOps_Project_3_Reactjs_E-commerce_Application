@@ -18,8 +18,10 @@ pipeline {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'master') {
+			echo "build.sh prod"
                         sh 'bash build.sh prod'
                     } else {
+			echo "build.sh dev"
                         sh 'bash build.sh dev'
                     }
                 }
@@ -34,11 +36,12 @@ pipeline {
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
                     sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
-
                     script {
                         if (env.BRANCH_NAME == 'master') {
+			    echo "docker push prod image"
                             sh 'docker push $PROD_IMAGE'
                         } else {
+			    echo "docker push dev image"
                             sh 'docker push $DEV_IMAGE'
                         }
                     }
