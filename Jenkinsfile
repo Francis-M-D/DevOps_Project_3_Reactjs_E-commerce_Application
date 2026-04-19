@@ -45,10 +45,12 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy') {
+	
+	stage('Deploy') {
             when {
-                branch 'master'
+                expression {
+                    return env.BRANCH_NAME == 'master'
+                }
             }
             steps {
                 sh 'bash deploy.sh'
