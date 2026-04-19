@@ -1,0 +1,56 @@
+---
+- name: Configure AWS Security Group Ingress Rules
+  hosts: local
+  gather_facts: false
+
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Ensure boto3 is installed
+      pip:
+        name: boto3
+        state: present
+        extra_args: "--break-system-packages"
+
+    - name: Add HTTP rule - open to everyone
+      amazon.aws.ec2_security_group:
+        name: "{{ sg_name }}"
+        description: "Security group for DevOps Project 3"
+        region: "{{ aws_region }}"
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: "0.0.0.0/0"
+            rule_desc: "HTTP - open to everyone"
+
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: "{{ my_ip }}"
+            rule_desc: "SSH - my IP only"
+
+          - proto: tcp
+            from_port: 8080
+            to_port: 8080
+            cidr_ip: "{{ my_ip }}"
+            rule_desc: "Jenkins - my IP only"
+
+          - proto: tcp
+            from_port: 3001
+            to_port: 3001
+            cidr_ip: "{{ my_ip }}"
+            rule_desc: "Uptime Kuma - my IP only"
+
+        rules_egress:
+          - proto: all
+            cidr_ip: "0.0.0.0/0"
+            rule_desc: "Allow all outbound"
+
+        state: present
+      register: sg_result
+
+    - name: Show Security Group result
+      debug:
+        msg: "Security Group {{ sg_result.group_id }} updated successfully"
