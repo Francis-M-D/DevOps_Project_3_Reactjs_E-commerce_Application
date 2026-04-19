@@ -1,8 +1,7 @@
-version: "3"
-
+version: '3'
 services:
   react-app:
-    image: ghostatdocker/react-app-dev:latest
+    image: ghostatdocker/react-app-prod:latest
     container_name: react-app
     ports:
       - "80:80"

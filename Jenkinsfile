@@ -16,14 +16,20 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'bash build.sh'
+                script {
+                    if (env.BRANCH_NAME == 'master') {
+                        sh 'bash build.sh prod'
+                    } else {
+                        sh 'bash build.sh dev'
+                    }
+                }
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'Docker_Credentials',
+                    credentialsId: 'dockerhub-credentials',
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
@@ -31,7 +37,6 @@ pipeline {
 
                     script {
                         if (env.BRANCH_NAME == 'master') {
-                            sh 'docker tag ghostatdocker/react-app-dev:latest $PROD_IMAGE'
                             sh 'docker push $PROD_IMAGE'
                         } else {
                             sh 'docker push $DEV_IMAGE'
@@ -42,10 +47,14 @@ pipeline {
         }
 
         stage('Deploy') {
+            when {
+                branch 'master'
+            }
             steps {
                 sh 'bash deploy.sh'
             }
         }
+
     }
 
     post {
