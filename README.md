@@ -206,7 +206,7 @@ Two repositories created on Docker Hub:
 
 | Setting | Value |
 |---|---|
-| Instance Type | t3.micro |
+| Instance Type | t3.small |
 | Region | ap-south-1 (Mumbai) |
 | OS | Ubuntu 22.04 LTS |
 | Storage | 20 GB |
