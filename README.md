@@ -44,7 +44,7 @@ https://github.com/Francis-M-D/DevOps_Project_3_Reactjs_E-commerce_Application.g
 ## 🌐 Deployed Application
 
 ```
-http://<YOUR-EC2-PUBLIC-IP>
+http://13.201.31.112/
 ```
 
 ---
@@ -225,13 +225,10 @@ Two repositories created on Docker Hub:
 
 ## ☁️ AWS Screenshots
 
-### 🔹 EC2 Dashboard
+### 🔹 EC2 Dashboard | Security Group Configuration
 
 ![EC2](.screenshots/aws-ec2.png)
 
-### 🔹 Security Group Configuration
-
-![SG](.screenshots/aws-sg.png)
 
 ---
 
@@ -264,7 +261,7 @@ Two repositories created on Docker Hub:
 
 ```
 Uptime Kuma Dashboard:
-http://<YOUR-EC2-PUBLIC-IP>:3001
+http://13.201.31.112/:3001
 ```
 
 ---
